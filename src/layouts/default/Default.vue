@@ -1,4 +1,5 @@
 <template>
+  <!-- eslint-disable vue/multi-word-component-names -->
   <v-app>
     <default-bar />
 
