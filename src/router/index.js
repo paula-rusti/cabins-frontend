@@ -35,6 +35,7 @@ const routes = [
       {
         path: '',
         name: 'Login Page',
+        props: true,
         component: () => import(/* webpackChunkName: "home" */ '@/views/LoginPage.vue'),
       }
     ]
@@ -46,6 +47,7 @@ const routes = [
       {
         path: '',
         name: 'Register Page',
+        props: true,
         component: () => import(/* webpackChunkName: "home" */ '@/views/RegisterPage.vue'),
       }
     ]

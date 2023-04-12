@@ -1,13 +1,22 @@
 <template>
   <v-app>
     <v-app-bar title="Cabins Inc">
-      <v-btn>Property Management</v-btn>
+      <v-btn :to="{
+        name: 'Login Page',
+        params: {
+          fromTourist: true
+        }
+      }">Property Management</v-btn>
+      <v-btn>About Us</v-btn>
+      <v-btn :to="{name: 'Login Page'}">Logout</v-btn>
     </v-app-bar>
+
     <v-main>
       <router-view>
 
       </router-view>
     </v-main>
+
   </v-app>
 </template>
 
