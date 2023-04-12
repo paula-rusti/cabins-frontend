@@ -2,6 +2,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
+  // TODO: remove home and refactor so that all pages which use landing layout to be under same parent
   {
     path: '/',
     component: () => import('@/layouts/default/Default.vue'),
@@ -49,6 +50,30 @@ const routes = [
       }
     ]
   },
+  // all pages under tourist will use its parent layout
+  {
+    path: '/tourist',
+    component: () => import('@/layouts/TouristLayout'),
+    children: [
+      {
+        path: '',
+        name: 'Tourist Home Page',
+        component: () => import(/* webpackChunkName: "home" */ '@/views/tourist/TouristHomePage.vue'),
+      }
+    ]
+  },
+  // all pages under owner will use its parent layout
+  {
+    path: '/owner',
+    component: () => import('@/layouts/OwnerLayout'),
+    children: [
+      {
+        path: '',
+        name: 'Owner Home Page',
+        component: () => import(/* webpackChunkName: "home" */ '@/views/owner/OwnerHomePage.vue'),
+      }
+    ]
+  }
 
 ]
 
