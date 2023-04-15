@@ -4,7 +4,8 @@
 
       <h1 class="text-h2 font-weight-bold">Tourist Home Page</h1>
       <v-row>
-        <v-col class="ma-2 v-col-md-3 v-col-lg-2 v-col-xl-2" cols="3">
+<!--        v-col-md-4 v-col-lg-2 v-col-xl-2-->
+        <v-col class="ma-2" cols="3">
           <search-card-tourist></search-card-tourist>
         </v-col>
 
@@ -27,6 +28,7 @@
 </template>
 
 <script>
+// TODO fetch cabins from the api
 import PropertyCardTourist from "@/components/PropertyCardTourist";
 import SearchCardTourist from "@/components/SearchCardTourist";
 

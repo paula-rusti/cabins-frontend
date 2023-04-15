@@ -35,7 +35,51 @@
           </v-text-field>
         </v-col>
         <v-col cols="12">
-          <v-btn block class="bg-white py-0 mx-auto">SEARCH</v-btn>
+          <v-autocomplete
+            v-model="this.facilities"
+            chips
+            label="Facilities"
+            :items="['Wifi', 'Spa', 'Pool', 'Parking']"
+            multiple
+            variant="solo"
+          ></v-autocomplete>
+        </v-col>
+
+        <v-col cols="12">
+          <v-text-field label="min price" bg-color="white" v-model="this.min_price">
+
+          </v-text-field>
+        </v-col>
+        <v-col cols="12">
+          <v-text-field label="max price" bg-color="white" v-model="this.max_price">
+
+          </v-text-field>
+        </v-col>
+
+        <v-col cols="12">
+          <v-slider
+            v-model="this.rating"
+            label="Rating"
+            :max="5"
+            :step="1"
+            hide-details
+            class="ma-4"
+          >
+            <template v-slot:append>
+              <v-text-field
+                v-model="this.rating"
+                type="number"
+                style="width: 80px"
+                density="compact"
+                hide-details
+                variant="outlined"
+              ></v-text-field>
+            </template>
+          </v-slider>
+        </v-col>
+
+        <v-col cols="12">
+          <v-btn block class="bg-white py-0 mx-auto" @click="this.searchHandler()">SEARCH</v-btn>
         </v-col>
       </v-row>
     </v-card-actions>
@@ -43,7 +87,11 @@
 </template>
 
 <script>
-// TODO: add validations with vuelidate
+// TODO: add validations for search params with vuelidate
+// TODO set search params into properties store and when search is pressed issue request there
+// TODO then collect results and update page's properties
+
+
 import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 
@@ -61,6 +109,10 @@ export default {
       dates: undefined,
       location: "",
       capacity: 0,
+      facilities: [],
+      min_price: null,
+      max_price: null,
+      rating: null,
       // rules: {
       //   required: value => !!value || 'Required.',
       //   capacity_token: value => Number(value) <= 100 || "Invalid number of guests.",
@@ -104,6 +156,11 @@ export default {
       if (!isNaN(value) && value <= 100) {
         console.log("capacity entered by the user is valid")
       }
+    },
+
+    searchHandler() {
+      console.log("facilities")
+      console.log(this.facilities)
     },
 
     async mounted() {

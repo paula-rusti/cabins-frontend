@@ -39,6 +39,7 @@
 </template>
 
 <script>
+// TODO make this look better
 export default {
   name: "CabinCard",
   props: {
