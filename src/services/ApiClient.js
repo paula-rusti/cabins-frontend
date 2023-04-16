@@ -1,10 +1,10 @@
-
 const url = "http://localhost:8000";
 
 class ApiClient {
   async fetchCabins(params) {
     let route = "/cabins";
     let fetchUrl = url + route + "?" + this.buildQueryString(params);
+    console.log(`request to ${fetchUrl}`)
     try {
       const fetchResponse = await fetch(fetchUrl);
       return await this.unwrapResponseData(fetchResponse);
@@ -26,6 +26,17 @@ class ApiClient {
 
   async fetchPhotosOfCabin(id) {
     const route = `/photos/cabin/${id}`;
+    let fetchUrl = url + route;
+    try {
+      const fetchResponse = await fetch(fetchUrl);
+      return await this.unwrapResponseData(fetchResponse);
+    } catch (e) {
+      return Promise.reject(e);
+    }
+  }
+
+  async countCabins() {
+    let route = "/cabins/count";
     let fetchUrl = url + route;
     try {
       const fetchResponse = await fetch(fetchUrl);
@@ -58,6 +69,12 @@ class ApiClient {
     /*
      * params = {key1: str, key2: arr[str], ..}
      * */
+    for (let key in params) {
+      if (params[key]===null) {
+        delete params[key]
+      }
+    }
+
     var queryString = Object.entries(params)
       .flatMap(([key, value]) => {
         if (Array.isArray(value) && value !== []) {

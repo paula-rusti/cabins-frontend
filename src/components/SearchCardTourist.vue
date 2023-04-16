@@ -4,7 +4,7 @@
     <v-card-actions>
       <v-row>
         <v-col class="py-0" cols="12">
-          <v-text-field v-model="this.location"
+          <v-text-field v-model="this.search_params.location"
                         bg-color="white"
                         class="mx-auto"
                         label="Country/City"
@@ -13,7 +13,7 @@
           ></v-text-field>
         </v-col>
         <v-col class="py-0 pb-5" cols="12">
-          <Datepicker v-model="this.dates"
+          <Datepicker v-model="this.search_params.dates"
                       :clearable="true"
                       :enable-time-picker="false"
                       :min-date="new Date()"
@@ -26,7 +26,7 @@
           <v-messages :active=true :messages="this.datepickerMessage"></v-messages>
         </v-col>
         <v-col class="py-0" cols="12">
-          <v-text-field v-model="this.capacity"
+          <v-text-field v-model="this.search_params.capacity"
                         bg-color="white"
                         class=" mx-auto"
                         label="Number of Guests"
@@ -36,7 +36,7 @@
         </v-col>
         <v-col cols="12">
           <v-autocomplete
-            v-model="this.facilities"
+            v-model="this.search_params.facilities"
             chips
             label="Facilities"
             :items="['Wifi', 'Spa', 'Pool', 'Parking']"
@@ -46,19 +46,19 @@
         </v-col>
 
         <v-col cols="12">
-          <v-text-field label="min price" bg-color="white" v-model="this.min_price">
+          <v-text-field label="min price" bg-color="white" v-model="this.search_params.min_price">
 
           </v-text-field>
         </v-col>
         <v-col cols="12">
-          <v-text-field label="max price" bg-color="white" v-model="this.max_price">
+          <v-text-field label="max price" bg-color="white" v-model="this.search_params.max_price">
 
           </v-text-field>
         </v-col>
 
         <v-col cols="12">
           <v-slider
-            v-model="this.rating"
+            v-model="this.search_params.rating"
             label="Rating"
             :max="5"
             :step="1"
@@ -67,7 +67,7 @@
           >
             <template v-slot:append>
               <v-text-field
-                v-model="this.rating"
+                v-model="this.search_params.rating"
                 type="number"
                 style="width: 80px"
                 density="compact"
@@ -79,7 +79,7 @@
         </v-col>
 
         <v-col cols="12">
-          <v-btn block class="bg-white py-0 mx-auto" @click="this.searchHandler()">SEARCH</v-btn>
+          <v-btn block class="bg-white py-0 mx-auto" @click="this.searchButtonHandler()">SEARCH</v-btn>
         </v-col>
       </v-row>
     </v-card-actions>
@@ -92,34 +92,31 @@
 // TODO then collect results and update page's properties
 
 
+// no interaction with the store in this component
+// just emit an event for the parent component
 import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 
 import _debounce from 'lodash/debounce'
 
-import {required, numeric} from "@vuelidate/validators";
 import {useVuelidate} from "@vuelidate/core";
 
 export default {
   name: "SearchCardTourist",
   components: {Datepicker},
+  emits: ['searchEvent'],
   data() {
     return {
-      v$: useVuelidate(),
-      dates: undefined,
-      location: "",
-      capacity: 0,
-      facilities: [],
-      min_price: null,
-      max_price: null,
-      rating: null,
-      // rules: {
-      //   required: value => !!value || 'Required.',
-      //   capacity_token: value => Number(value) <= 100 || "Invalid number of guests.",
-      //   location_token: value => {
-      //     return /^[a-z]+$/i.test(value) || 'Invalid location.'
-      //   },
-      // },
+      v$: useVuelidate(), // integrate this component with vuelidate
+      search_params: {
+        dates: undefined,
+        location: null,
+        capacity: null,
+        facilities: null,
+        min_price: null,
+        max_price: null,
+        rating: null,
+      },
       debouncedUpdateLocationToken: null,
       debouncedUpdateCapacity: null
     }
@@ -127,25 +124,17 @@ export default {
   computed: {
     datepickerMessage() {
       // Object.keys(this.search.dates).length === 0 && this.search.dates.constructor === Object
-      if (this.dates === undefined) {
+      if (this.search_params.dates === undefined) {
         return "Required!"
       } else {
         return "--------"
       }
-    },
-    // capacityErrors() {
-    //   const errors = []
-    //   if (!this.v$.capacity.$dirty) {
-    //     return errors
-    //   }
-    //   !this.v$.capacity.required.$response && errors.push("Capacity is required")
-    //   !this.v$.capacity.numeric.$response && errors.push("Capacity must be numeric")
-    //   return errors
-    // }
+    }
   },
   methods: {
     // functions for updating location
     updateLocation(value) {  // debounced function
+      console.log("debounce", value)
       if (/^[a-z]+$/i.test(value)) {
         console.log("location updated by user is valid")
       }
@@ -158,15 +147,23 @@ export default {
       }
     },
 
-    searchHandler() {
-      console.log("facilities")
-      console.log(this.facilities)
-    },
+    searchButtonHandler() {
+      console.log("Emitting event from search component with params ..")
+      if (this.search_params.dates !== undefined) {
+        this.search_params.start_date = this.search_params.dates[0]
+        this.search_params.end_date = this.search_params.dates[1]
+      } else {
+        this.search_params.start_date = null
+        this.search_params.end_date = null
+      }
+      delete this.search_params['dates']
 
-    async mounted() {
-      this.debouncedUpdateLocationToken = _debounce(this.updateLocation, 600)
-      this.debouncedUpdateCapacity = _debounce(this.updateCapacity, 600)
+      this.$emit('searchEvent', this.search_params)
     }
+  },
+  async mounted() {
+    this.debouncedUpdateLocationToken = _debounce(this.updateLocation, 600)
+    this.debouncedUpdateCapacity = _debounce(this.updateCapacity, 600)
   }
 }
 </script>
