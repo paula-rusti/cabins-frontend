@@ -28,6 +28,12 @@
               </v-btn>
               <v-btn
                 color="purple lighten-2"
+                :to="{
+                  name: 'Cabin Details',
+                  params: {
+                    cabin_id: id
+                  }
+                }"
               >Explore</v-btn>
             </v-card-actions>
           </v-col>

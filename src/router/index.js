@@ -54,13 +54,19 @@ const routes = [
   },
   // all pages under tourist will use its parent layout
   {
-    path: '/tourist',
+    path: '/tourist/',
     component: () => import('@/layouts/TouristLayout'),
     children: [
       {
         path: '',
         name: 'Tourist Home Page',
         component: () => import(/* webpackChunkName: "home" */ '@/views/tourist/TouristHomePage.vue'),
+      },
+      {
+        path: ':cabin_id',
+        name: "Cabin Details",
+        props: true,
+        component: () => import("@/views/tourist/CabinDetails.vue"),
       }
     ]
   },
