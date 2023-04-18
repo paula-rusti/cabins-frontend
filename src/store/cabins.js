@@ -5,6 +5,7 @@ import ApiClient from "@/services/ApiClient";
 export const useCabinsStore = defineStore("cabins", {
   state: () => ({
     cabins: [],
+    currentCabin: {}, // used by cabin details
     cabinsCount: 0,
     currentPage: 1,
     itemsPerPage: 0, // set by cabinsList
@@ -46,7 +47,8 @@ export const useCabinsStore = defineStore("cabins", {
     },
 
     async getCabinById(id) {
-      return await ApiClient.fetchCabinById(id);
+      this.currentCabin = await ApiClient.fetchCabinById(id);
+      return this.currentCabin
     },
 
     async getPhotosOfCabin(id) {

@@ -140,18 +140,14 @@ import HostInformationCard from "@/components/HostInformationCard";
 import HostContactInfo from "@/components/HostContactInfo";
 import ReviewCard from "@/components/ReviewCard";
 import ReserveCard from "@/components/ReserveCard";
+import {mapActions} from "pinia/dist/pinia";
 
 export default {
   name: "CabinDetails",
   components: {ReserveCard, ReviewCard, HostContactInfo, HostInformationCard, FacilitiesTourist, Lightgallery},
-  props: {
-    cabin_id: {
-      type: String,
-      required: true
-    }
-  },
   data() {
     return {
+      cabin_id: null,
       rating: 0,
       lightGallerySettings: {
         plugins: [lgThumbnail, lgZoom],
@@ -172,22 +168,13 @@ export default {
         "https://cdn.vuetifyjs.com/images/parallax/material.jpg",
         "https://picsum.photos/350/165?random"
       ],
-      currCabin: {}
     }
   },
   computed: {
-    ...mapState(useCabinsStore, ['cabins']),
-    currentCabin() {
-      let c_id = Number.parseInt(this.cabin_id)
-      for (let cabin of this.cabins) {
-        if (cabin.id === c_id) {
-          return cabin
-        }
-      }
-      return {}
-    }
+    ...mapState(useCabinsStore, ['cabins', 'currentCabin'])
   },
   methods: {
+    ...mapActions(useCabinsStore, ['getCabinById']),
     onInit: () => {
       console.log('lightGallery has been initialized');
     },
@@ -196,12 +183,9 @@ export default {
     }
   },
   created() {
-    let c_id = Number.parseInt(this.cabin_id)
-    for (let cabin of this.cabins) {
-      if (cabin.id === c_id) {
-        this.currCabin = cabin
-      }
-    }
+    this.cabin_id = this.$route.params.cabin_id // extract params from route
+    this.getCabinById(this.cabin_id)  // fetches currentCabin in store
+    console.log("Cabin id is ", this.cabin_id)
   }
 }
 </script>

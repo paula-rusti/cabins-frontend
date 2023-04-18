@@ -65,7 +65,6 @@ const routes = [
       {
         path: ':cabin_id',
         name: "Cabin Details",
-        props: true,
         component: () => import("@/views/tourist/CabinDetails.vue"),
       }
     ]
