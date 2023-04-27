@@ -23,7 +23,7 @@
         </v-col>
       </v-row>
 
-      <v-row cols="12">
+      <v-row cols="12" align="center" justify="center">
         <div>
           <v-pagination v-model="page" :length="pagesCount">
           </v-pagination>
@@ -35,7 +35,6 @@
 </template>
 
 <script>
-// TODO fetch cabins from the api
 import PropertyCardTourist from "@/components/PropertyCardTourist";
 import SearchCardTourist from "@/components/SearchCardTourist";
 

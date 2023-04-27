@@ -66,18 +66,33 @@ const routes = [
         path: ':cabin_id',
         name: "Cabin Details",
         component: () => import("@/views/tourist/CabinDetails.vue"),
+      },
+      {
+        path: 'reviews',
+        name: "My Reviews",
+        component: () => import("@/views/tourist/ReviewsPage.vue")
+      },
+      {
+        path: 'profile',
+        name: 'Tourist Profile Page',
+        component: () => import(/* webpackChunkName: "home" */ '@/views/ProfilePage.vue'),
       }
     ]
   },
   // all pages under owner will use its parent layout
   {
-    path: '/owner',
+    path: '/owner/',
     component: () => import('@/layouts/OwnerLayout'),
     children: [
       {
         path: '',
         name: 'Owner Home Page',
         component: () => import(/* webpackChunkName: "home" */ '@/views/owner/OwnerHomePage.vue'),
+      },
+      {
+        path: 'profile',
+        name: 'Owner Profile Page',
+        component: () => import(/* webpackChunkName: "home" */ '@/views/ProfilePage.vue'),
       }
     ]
   }
