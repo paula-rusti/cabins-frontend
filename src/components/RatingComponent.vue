@@ -51,7 +51,7 @@
     </v-list>
     <v-list-item>
       <div class="d-flex align-center flex-column my-auto py-1">
-        <v-btn>See Reviews</v-btn>
+        <v-btn to="/tourist/reviews">See Reviews</v-btn>
       </div>
     </v-list-item>
   </v-card>
