@@ -7,7 +7,12 @@
         <v-col cols="3"></v-col>
         <v-col cols="6">
           <div v-for="review in this.reviews" :key="review.id" class="pa-4">
-            <review-card></review-card>
+            <review-card owner-name="Evan Yout"
+                         property-name="Mountain View Chalet"
+                         grade="4"
+                         date="12.12.2022"
+                         content="Lorem ipsum............................."
+            ></review-card>
           </div>
         </v-col>
         <v-col cols="3"></v-col>

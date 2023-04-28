@@ -7,23 +7,60 @@
           image="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
         ></v-avatar>
       </template>
-      <v-list-item-title>Evan You</v-list-item-title>
-      <v-list-item-subtitle>5.0</v-list-item-subtitle>
+      <v-list-item-title>{{this.ownerName}}</v-list-item-title>
+      <v-list-item-subtitle>{{this.grade}}</v-list-item-subtitle>
     </v-list-item>
-    <v-card-text>Property Name</v-card-text>
-    <v-card-text>DD-MM-YYYY</v-card-text>
-    <v-card-text>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-      been the
-      industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type
-      and
-      scrambled it to make a type specimen book.
-    </v-card-text>
+    <v-card-text>{{this.propertyName}}</v-card-text>
+    <v-card-text>{{this.date}}</v-card-text>
+    <v-card-text>{{this.content}}</v-card-text>
   </v-card>
 </template>
 
 <script>
 export default {
-  name: "ReviewCard"
+  name: "ReviewCard",
+  props: {
+    ownerName: {
+      type: String,
+      required: true
+    },
+    ownerAvatar: {
+      type: String,
+      required: false,
+      // eslint-disable-next-line no-unused-vars
+      validator (value) {
+        // should validate that value is a valid photo url
+        // if url is not valid apply placeholder profile pic
+        return true
+      }
+    },
+    propertyName: {
+      type: String,
+      required: true
+    },
+    grade: {
+      type: Number,
+      required: true,
+      // eslint-disable-next-line no-unused-vars
+      validator(value) {
+        // should validate that value is one of 1, 2, 3, 4, 5
+        return true
+      }
+    },
+    content: {
+      type: String,
+      required: false,
+    },
+    date: {
+      type: String,
+      required: true,
+      // eslint-disable-next-line no-unused-vars
+      validator (value) {
+        // should validate that value is a date in the format dd.mm.yyyy
+        return true
+      }
+    }
+  }
 }
 </script>
 
