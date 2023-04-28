@@ -10,6 +10,8 @@
       <v-list-item-title>Evan You</v-list-item-title>
       <v-list-item-subtitle>5.0</v-list-item-subtitle>
     </v-list-item>
+    <v-card-text>Property Name</v-card-text>
+    <v-card-text>DD-MM-YYYY</v-card-text>
     <v-card-text>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
       been the
       industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type
