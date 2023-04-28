@@ -93,34 +93,11 @@
         </v-col>
       </v-row>
       <v-divider class="py-4"></v-divider>
-<!--      reviews-->
-      <v-row>
-        <v-col cols="12">
-          <v-row>
-            <v-col cols="12">
-              <div class="pa-4">
-                <p>
-                  <v-icon class="pr-5" icon="mdi-star" size="35px"></v-icon>
-                  <span class="pr-3 font-weight-bold">5.0</span>
-                  <span class="pr-2">10</span>
-                  <span>reviews</span>
-                </p>
-              </div>
-            </v-col>
-          </v-row>
-<!--          v-if has reviews-->
-          <v-row>
-            <v-col>
-              <div class="pa-4">
-                <review-card></review-card>
-              </div>
-            </v-col>
-            <v-col>
-<!--              will navigate to a page dedicated to reviews-->
-              <v-btn>See all reviews</v-btn>
-            </v-col>
-          </v-row>
-        </v-col>
+<!--      reviews: conditionally render only if it has reviews-->
+      <v-row justify="center" align-content="center">
+        <div class="pa-5">
+          <rating-component></rating-component>
+        </div>
       </v-row>
 
     </v-responsive>
@@ -138,13 +115,15 @@ import Lightgallery from "lightgallery/vue";
 import FacilitiesTourist from "@/components/FacilitiesTourist";
 import HostInformationCard from "@/components/HostInformationCard";
 import HostContactInfo from "@/components/HostContactInfo";
-import ReviewCard from "@/components/ReviewCard";
 import ReserveCard from "@/components/ReserveCard";
 import {mapActions} from "pinia/dist/pinia";
+import RatingComponent from "@/components/RatingComponent";
 
 export default {
   name: "CabinDetails",
-  components: {ReserveCard, ReviewCard, HostContactInfo, HostInformationCard, FacilitiesTourist, Lightgallery},
+  components: {
+    RatingComponent,
+    ReserveCard, HostContactInfo, HostInformationCard, FacilitiesTourist, Lightgallery},
   data() {
     return {
       cabin_id: null,
