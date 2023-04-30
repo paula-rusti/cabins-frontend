@@ -76,6 +76,11 @@ const routes = [
         path: 'profile',
         name: 'Tourist Profile Page',
         component: () => import(/* webpackChunkName: "home" */ '@/views/ProfilePage.vue'),
+      },
+      {
+        path: 'bookings',
+        name: 'Tourist Bookings Page',
+        component: () => import(/* webpackChunkName: "home" */ '@/views/tourist/BookingsPage.vue'),
       }
     ]
   },
