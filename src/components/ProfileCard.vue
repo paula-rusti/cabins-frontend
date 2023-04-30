@@ -9,7 +9,7 @@
         ></v-avatar>
       </template>
       <v-list-item-title class="text-h5">Paula Rusti</v-list-item-title>
-      <v-list-item-subtitle class="font-weight-bold">Tourist</v-list-item-subtitle>
+      <v-list-item-subtitle class="font-weight-bold">{{userType}}</v-list-item-subtitle>
       <v-list-item-subtitle class="font-italic">Joined 15.10.2020</v-list-item-subtitle>
     </v-list-item>
     <v-card-text>Description .... </v-card-text>
@@ -18,7 +18,16 @@
 </template>
 <script>
 export default {
-  name: "ProfileCard"
+  name: "ProfileCard",
+  props: {
+    userType: {
+      required: true,
+      type: String,
+      validator(value) {
+        return (value === 'Tourist' || value === 'Owner')
+      }
+    }
+  }
 }
 </script>
 

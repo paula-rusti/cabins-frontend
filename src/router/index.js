@@ -75,7 +75,7 @@ const routes = [
       {
         path: 'profile',
         name: 'Tourist Profile Page',
-        component: () => import(/* webpackChunkName: "home" */ '@/views/ProfilePage.vue'),
+        component: () => import(/* webpackChunkName: "home" */ '@/views/tourist/ProfilePage.vue'),
       },
       {
         path: 'bookings',
@@ -97,7 +97,7 @@ const routes = [
       {
         path: 'profile',
         name: 'Owner Profile Page',
-        component: () => import(/* webpackChunkName: "home" */ '@/views/ProfilePage.vue'),
+        component: () => import(/* webpackChunkName: "home" */ '@/views/owner/ProfilePage.vue'),
       }
     ]
   }

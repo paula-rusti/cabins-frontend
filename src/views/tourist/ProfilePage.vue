@@ -6,7 +6,7 @@
       <v-row>
         <v-col cols="6">
           <div class="pa-5">
-            <profile-card></profile-card>
+            <profile-card user-type="Tourist"></profile-card>
           </div>
         </v-col>
         <v-col cols="6">
