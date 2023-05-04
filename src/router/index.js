@@ -92,12 +92,27 @@ const routes = [
       {
         path: '',
         name: 'Owner Home Page',
-        component: () => import(/* webpackChunkName: "home" */ '@/views/owner/OwnerHomePage.vue'),
+        component: () => import(/* webpackChunkName: "home" */ '@/views/owner/CabinListPage.vue'),
       },
       {
         path: 'profile',
         name: 'Owner Profile Page',
         component: () => import(/* webpackChunkName: "home" */ '@/views/owner/ProfilePage.vue'),
+      },
+      {
+        path: 'bookings',
+        name: 'Owner Bookings Page',
+        component: () => import(/* webpackChunkName: "home" */ '@/views/owner/BookingsPage.vue'),
+      },
+      {
+        path: 'insight',
+        name: 'Owner Insight Page',
+        component: () => import(/* webpackChunkName: "home" */ '@/views/owner/InsightPage.vue'),
+      },
+      {
+        path: 'add-cabin',
+        name: 'Owner Add Property Page',
+        component: () => import(/* webpackChunkName: "home" */ '@/views/owner/AddPropertyPage.vue'),
       }
     ]
   }
