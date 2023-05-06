@@ -60,6 +60,27 @@
           </div>
         </v-col>
       </v-row>
+
+      <v-row>
+        <v-col cols="12">
+          <h1>Aici vine harta</h1>
+        </v-col>
+      </v-row>
+
+      <v-row class="ma-2">
+        <v-col cols="4"></v-col>
+        <v-col cols="auto">
+          <div id="map" style="height: 1000px; width: 1000px"></div>
+        </v-col>
+        <v-col cols="4"></v-col>
+      </v-row>
+
+      <v-row>
+        <v-col cols="12">
+          <h1>Dupa harta</h1>
+        </v-col>
+      </v-row>
+
     </v-responsive>
   </v-container>
 </template>
@@ -71,6 +92,9 @@ import {maxLength, minLength, required} from "@vuelidate/validators";
 import {useVuelidate} from "@vuelidate/core";
 import {mapActions, mapState} from "pinia";
 import {useManagementStore} from "@/store/management";
+
+const popup = L.popup();
+
 
 export default {
   name: "AddPropertyPage",
@@ -110,6 +134,10 @@ export default {
   },
   data() {
     return {
+      // map data
+      marker: null,
+      map: null,
+      //vuelidate
       v$: useVuelidate(),
       staticData: {
         pictograms: [
@@ -207,11 +235,36 @@ export default {
           this.propertyData.capacity = value
           break;
       }
+    },
+
+    onMapClick(e) {
+      console.log("On click", e)
+      console.log("Cords", e.latlng)
+      this.marker.remove()
+      this.marker = L.marker(e.latlng).addTo(this.map);
+      popup.setLatLng(e.latlng).setContent("You clicked at " + e.latlng.toString()).openOn(this.map)
     }
+  },
+  mounted() {
+    let map = this.map = L.map('map').setView([45.756415409400695, 21.229405403137207], 18)
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+
+    L.Control.geocoder().addTo(map);
+
+    this.marker = L.marker([45.756415409400695, 21.229405403137207]).addTo(map);
+
+    // Folosesti asta ca sa setezi locatia
+    map.on("click", this.onMapClick)  // register listener
   }
 }
+
+//todo listen to markgeocode event and look with debugger to see what it sends
 </script>
 
 <style scoped>
+
 
 </style>
