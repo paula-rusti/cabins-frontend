@@ -51,6 +51,13 @@
             </div>
 
             <add-facility></add-facility>
+
+            <div class="d-flex flex-row justify-space-around ">
+              <v-text-field v-model="propertyData.latitude" readonly label="latitude" style="max-width: 600px" class="ms-10"></v-text-field>
+              <v-text-field v-model="propertyData.longitude" readonly label="longitude" style="max-width: 600px" class="mx-10"></v-text-field>
+              <v-text-field readonly label="location name: city, country" style="max-width: 600px" class="me-10"></v-text-field>
+            </div>
+
           </v-card>
 
         </v-col>
@@ -167,6 +174,9 @@ export default {
         capacity: null,
 
         cabinId: null,  //uniquely identifies a cabin of a certain owner, automatically filled by taking into consideration the existing ids from the management store
+
+        latitude: null,  // automatically filled by the map
+        longitude: null,  // automatically filled by the map
       },
     }
   },
@@ -243,6 +253,10 @@ export default {
       this.marker.remove()
       this.marker = L.marker(e.latlng).addTo(this.map);
       popup.setLatLng(e.latlng).setContent("You clicked at " + e.latlng.toString()).openOn(this.map)
+
+      // set lat and long -- shall be visible in the form
+      this.propertyData.latitude = e.latlng.lat
+      this.propertyData.longitude = e.latlng.lng
     }
   },
   mounted() {
@@ -258,6 +272,10 @@ export default {
 
     // Folosesti asta ca sa setezi locatia
     map.on("click", this.onMapClick)  // register listener
+  },
+
+  blockInput(event) {
+    event.preventDefault()
   }
 }
 

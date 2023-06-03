@@ -46,6 +46,7 @@
 
 <script>
 // TODO make this look better
+// TODO add facilities here
 export default {
   name: "CabinCard",
   props: {

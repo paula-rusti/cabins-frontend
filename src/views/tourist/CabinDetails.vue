@@ -107,7 +107,7 @@
 <script>
 import {useCabinsStore} from "@/store/cabins";
 import {mapState} from "pinia";
-
+// todo add leaflet map without geocoder
 // lightgallery
 import lgThumbnail from "lightgallery/plugins/thumbnail";
 import lgZoom from "lightgallery/plugins/zoom";
