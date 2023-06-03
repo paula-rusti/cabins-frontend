@@ -55,7 +55,7 @@
             <div class="d-flex flex-row justify-space-around ">
               <v-text-field v-model="propertyData.latitude" readonly label="latitude" style="max-width: 600px" class="ms-10"></v-text-field>
               <v-text-field v-model="propertyData.longitude" readonly label="longitude" style="max-width: 600px" class="mx-10"></v-text-field>
-              <v-text-field readonly label="location name: city, country" style="max-width: 600px" class="me-10"></v-text-field>
+              <v-text-field v-model="propertyData.location_name" readonly label="location name: city, country" style="max-width: 600px" class="me-10"></v-text-field>
             </div>
 
           </v-card>
@@ -177,6 +177,7 @@ export default {
 
         latitude: null,  // automatically filled by the map
         longitude: null,  // automatically filled by the map
+        location_name: null,  // automatically filled by the map
       },
     }
   },
@@ -266,7 +267,19 @@ export default {
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
 
-    L.Control.geocoder().addTo(map);
+    // method from docs
+    // eslint-disable-next-line no-unused-vars
+    let self = this;  // capture self which is the vue instance
+    let geocoder = L.Control.geocoder({
+      defaultMarkGeocode: false
+    })
+      .on('markgeocode', function(e) {
+        console.log("Geocode event handler")
+        // this.propertyData.location_name = e.geocode.name
+        self.propertyData.location_name = e.geocode.name
+      })
+      .addTo(map);
+
 
     this.marker = L.marker([45.756415409400695, 21.229405403137207]).addTo(map);
 
