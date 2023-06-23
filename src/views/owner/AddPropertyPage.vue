@@ -102,7 +102,6 @@ import {useManagementStore} from "@/store/management";
 
 const popup = L.popup();
 
-
 export default {
   name: "AddPropertyPage",
   components: {AddFacility, NumberInput},
@@ -190,6 +189,7 @@ export default {
       }
     }
   },
+
   methods: {
     ...mapActions(useManagementStore, ["addCabin"]),
     async requestAddCabin() {
@@ -214,6 +214,7 @@ export default {
       }
       return apiResponse
     },
+
     submitForm() {
       this.v$.$validate()
       if (!this.v$.$error) {
@@ -227,6 +228,7 @@ export default {
         alert('Form failed validation')
       }
     },
+
     setValueHandler(type, value) {
       console.log("setValue was emitted with" + type + " " + value)
       switch (type) {
@@ -283,7 +285,6 @@ export default {
 
     this.marker = L.marker([45.756415409400695, 21.229405403137207]).addTo(map);
 
-    // Folosesti asta ca sa setezi locatia
     map.on("click", this.onMapClick)  // register listener
   },
 

@@ -82,6 +82,14 @@
           </div>
         </v-col>
       </v-row>
+<!--      aici punem harta-->
+      <v-row>
+        <v-col cols="4"></v-col>
+        <v-col cols="auto">
+          <div id="map" style="height: 1000px; width: 1000px"></div>
+        </v-col>
+        <v-col cols="4"></v-col>
+      </v-row>
 <!--      host information-->
       <v-row>
         <v-col class="v-col-md-7 v-col-xs-12 v-col-sm-12" cols="6">
@@ -119,6 +127,8 @@ import ReserveCard from "@/components/ReserveCard";
 import {mapActions} from "pinia/dist/pinia";
 import RatingComponent from "@/components/RatingComponent";
 
+const popup = L.popup();
+
 export default {
   name: "CabinDetails",
   components: {
@@ -147,6 +157,14 @@ export default {
         "https://cdn.vuetifyjs.com/images/parallax/material.jpg",
         "https://picsum.photos/350/165?random"
       ],
+
+      // map data
+      marker: null,
+      map: null,
+      // location name, latitude, longitude are store in the cabin object but we'll store them here also
+      location_name: null,
+      latitude: null,
+      longitude: null,
     }
   },
   computed: {
@@ -162,9 +180,26 @@ export default {
     }
   },
   created() {
+    console.log("Created cabin details")
     this.cabin_id = this.$route.params.cabin_id // extract params from route
     this.getCabinById(this.cabin_id)  // fetches currentCabin in store
     console.log("Cabin id is ", this.cabin_id)
+    // place this in data also
+    this.location_name = this.currentCabin.location_name
+    this.latitude = this.currentCabin.latitude
+    this.longitude = this.currentCabin.longitude
+    console.log("In created latitude is ", this.latitude, " longitude is ", this.longitude)
+  },
+
+  mounted() {
+    console.log("Monted cabin details, latitude is ", this.latitude, " longitude is ", this.longitude)
+    let map = this.map = L.map('map').setView([this.latitude, this.longitude], 18)
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+    // place marker at location of cabin
+    this.marker = L.marker([this.latitude, this.longitude]).addTo(map);
   }
 }
 </script>
