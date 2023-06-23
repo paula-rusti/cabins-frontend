@@ -5,20 +5,6 @@ const routes = [
   // TODO: remove home and refactor so that all pages which use landing layout to be under same parent
   {
     path: '/',
-    component: () => import('@/layouts/default/Default.vue'),
-    children: [
-      {
-        path: '', // kept just as demo fot the default layouts and views
-        name: 'Home',
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: () => import(/* webpackChunkName: "home" */ '@/views/Home.vue'),
-      }
-    ],
-  },
-  {
-    path: '/landing',
     component: () => import('@/layouts/LandingLayout'),
     children: [
       {
