@@ -65,7 +65,7 @@
               v-model="state.role"
               :items="roles"
               :error-messages="v$.role.$errors.map(e => e.$message)"
-              label="Item"
+              label="Role"
               required
               @change="v$.role.$touch"
               @blur="v$.role.$touch"
@@ -138,7 +138,6 @@ export default {
   methods: {
     async register() {
       const isFormCorrect = await this.v$.$validate()
-      console.log(isFormCorrect, this.v$.$errors)
       if (!isFormCorrect) return
       try {
         await this.tasksStore.registerUser(this.state)

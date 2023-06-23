@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar title="Cabins Inc"></v-app-bar>
+    <AppBar/>
     <v-main>
       <router-view>
 
@@ -10,8 +10,11 @@
 </template>
 
 <script>
+import AppBar from "@/components/AppBar.vue";
+
 export default {
-  name: "LandingLayout"
+  name: "LandingLayout",
+  components: {AppBar}
 }
 </script>
 

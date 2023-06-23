@@ -1,15 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar title="Cabins Inc">
-      <v-btn :to="{
-        name: 'Login Page',
-        params: {
-          fromTourist: true
-        }
-      }">Property Management</v-btn>
-      <v-btn>About Us</v-btn>
-      <v-btn :to="{name: 'Login Page'}">Logout</v-btn>
-    </v-app-bar>
+    <AppBar/>
     <tourist-side-navbar></tourist-side-navbar>
 
     <v-main>
@@ -23,9 +14,21 @@
 
 <script>
 import TouristSideNavbar from "@/components/TouristSideNavbar";
+import AppBar from "@/components/AppBar.vue";
+import {useUserStore} from "@/store/user";
+
 export default {
   name: "TouristLayout",
-  components: {TouristSideNavbar}
+  components: {TouristSideNavbar, AppBar},
+  setup() {
+    let userStore = useUserStore()
+    return {userStore}
+  },
+  mounted() {
+    if (this.userStore.userRole !== 'tourist') {
+      this.$router.push({name: 'Owner Home Page'})
+    }
+  }
 }
 </script>
 
