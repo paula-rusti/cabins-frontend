@@ -1,5 +1,19 @@
 // Composables
 import { createRouter, createWebHistory } from 'vue-router'
+import LandingPage from "@/views/LandingPage.vue";
+import LoginPage from "@/views/LoginPage.vue";
+import RegisterPage from "@/views/RegisterPage.vue";
+import TouristHomePage from "@/views/tourist/TouristHomePage.vue";
+import CabinDetails from "@/views/tourist/CabinDetails.vue";
+import ReviewsPage from "@/views/tourist/ReviewsPage.vue";
+import ProfilePage from "@/views/tourist/ProfilePage.vue";
+import BookingsPage from "@/views/tourist/BookingsPage.vue";
+
+import ProfilePageOwner from "@/views/owner/ProfilePage.vue";
+import BookingsPageOwner from "@/views/owner/BookingsPage.vue";
+import CabinListPage from "@/views/owner/CabinListPage.vue";
+import InsightPage from "@/views/owner/InsightPage.vue";
+import AddPropertyPage from "@/views/owner/AddPropertyPage.vue";
 
 const routes = [
   // TODO: remove home and refactor so that all pages which use landing layout to be under same parent
@@ -10,7 +24,7 @@ const routes = [
       {
         path: '',
         name: 'Landing Page',
-        component: () => import(/* webpackChunkName: "home" */ '@/views/LandingPage.vue'),
+        component: () => LandingPage,
       }
     ]
   },
@@ -22,7 +36,7 @@ const routes = [
         path: '',
         name: 'Login Page',
         props: true,
-        component: () => import(/* webpackChunkName: "home" */ '@/views/LoginPage.vue'),
+        component: () => LoginPage,
       }
     ]
   },
@@ -34,7 +48,7 @@ const routes = [
         path: '',
         name: 'Register Page',
         props: true,
-        component: () => import(/* webpackChunkName: "home" */ '@/views/RegisterPage.vue'),
+        component: () => RegisterPage,
       }
     ]
   },
@@ -46,27 +60,27 @@ const routes = [
       {
         path: '',
         name: 'Tourist Home Page',
-        component: () => import(/* webpackChunkName: "home" */ '@/views/tourist/TouristHomePage.vue'),
+        component: () => TouristHomePage,
       },
       {
         path: ':cabin_id',
         name: "Cabin Details",
-        component: () => import("@/views/tourist/CabinDetails.vue"),
+        component: () => CabinDetails,
       },
       {
         path: 'reviews',
         name: "My Reviews",
-        component: () => import("@/views/tourist/ReviewsPage.vue")
+        component: () => ReviewsPage
       },
       {
         path: 'profile',
         name: 'Tourist Profile Page',
-        component: () => import(/* webpackChunkName: "home" */ '@/views/tourist/ProfilePage.vue'),
+        component: () => ProfilePage,
       },
       {
         path: 'bookings',
         name: 'Tourist Bookings Page',
-        component: () => import(/* webpackChunkName: "home" */ '@/views/tourist/BookingsPage.vue'),
+        component: () => BookingsPage,
       }
     ]
   },
@@ -78,27 +92,27 @@ const routes = [
       {
         path: '',
         name: 'Owner Home Page',
-        component: () => import(/* webpackChunkName: "home" */ '@/views/owner/CabinListPage.vue'),
+        component: () => CabinListPage,
       },
       {
         path: 'profile',
         name: 'Owner Profile Page',
-        component: () => import(/* webpackChunkName: "home" */ '@/views/owner/ProfilePage.vue'),
+        component: () => ProfilePageOwner,
       },
       {
         path: 'bookings',
         name: 'Owner Bookings Page',
-        component: () => import(/* webpackChunkName: "home" */ '@/views/owner/BookingsPage.vue'),
+        component: () => BookingsPageOwner,
       },
       {
         path: 'insight',
         name: 'Owner Insight Page',
-        component: () => import(/* webpackChunkName: "home" */ '@/views/owner/InsightPage.vue'),
+        component: () => InsightPage,
       },
       {
         path: 'add-cabin',
         name: 'Owner Add Property Page',
-        component: () => import(/* webpackChunkName: "home" */ '@/views/owner/AddPropertyPage.vue'),
+        component: () => AddPropertyPage,
       }
     ]
   }

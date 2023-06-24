@@ -65,8 +65,28 @@
 </template>
 
 <script>
+import {useUserStore} from "@/store/user";
+
 export default {
   name: "LandingPage",
+  setup() {
+    const userStore = useUserStore()
+    return { userStore: userStore }
+  },
+  mounted() {
+    this.redirectLoggedInUser()
+  },
+  methods: {
+    async redirectLoggedInUser() {
+      if (this.userStore.isLoggedIn) {
+        if (this.userStore.userRole === 'tourist') {
+          await this.$router.push({name: 'Tourist Home Page'})
+        } else if (this.userStore.userRole === 'owner') {
+          await this.$router.push({name: 'Owner Home Page'})
+        }
+      }
+    }
+  }
 }
 </script>
 

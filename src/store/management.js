@@ -16,6 +16,7 @@ export const useManagementStore = defineStore('management', {
       console.log("adding cabin", cabinData);
       let response = await ApiClient.addCabin(cabinData, userStore.access_token);
       // TODO: handler response
+      console.log("response", response);
     },
     // eslint-disable-next-line no-unused-vars
     async retrieveCabins(page = 1, size = 100) {
