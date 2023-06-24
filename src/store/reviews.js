@@ -1,5 +1,7 @@
 // Utilities
 import {defineStore} from "pinia";
+import ReviewApiClient from "@/services/ReviewApiClient";
+import {useUserStore} from "@/store/user";
 
 export const useReviewsStore = defineStore("reviews", {
   state: () => ({
@@ -52,6 +54,16 @@ export const useReviewsStore = defineStore("reviews", {
     ]
   }),
   actions: {
+    async leaveReview({rating, booking, description}) {
+      let userStore = useUserStore()
+      let review = {
+        grade: rating,
+        description: description || "",
+        booking_id: booking.id,
+        cabin_id: booking.cabin_id
+      }
+      await ReviewApiClient.leaveReview(review, userStore.access_token)
+    },
     // eslint-disable-next-line no-unused-vars
     retrieveReviewsOfCabin(cabinId) {
       // take page and size into consideration when returning the reviews (server-side pagination)
