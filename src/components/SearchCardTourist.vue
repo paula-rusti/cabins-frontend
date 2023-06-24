@@ -1,5 +1,5 @@
 <template>
-  <v-card color="pink" min-height="550px">
+  <v-card color="green" min-height="550px">
     <v-card-title class="pb-5">SEARCH</v-card-title>
     <v-card-actions>
       <v-row>
@@ -113,8 +113,8 @@ export default {
         location: null,
         capacity: null,
         facilities: null,
-        min_price: null,
-        max_price: null,
+        min_price: 0,
+        max_price: 10000,
         rating: null,
       },
       debouncedUpdateLocationToken: null,
@@ -124,11 +124,6 @@ export default {
   computed: {
     datepickerMessage() {
       // Object.keys(this.search.dates).length === 0 && this.search.dates.constructor === Object
-      if (this.search_params.dates === undefined) {
-        return "Required!"
-      } else {
-        return "--------"
-      }
     }
   },
   methods: {
@@ -152,11 +147,19 @@ export default {
       if (this.search_params.dates !== undefined) {
         this.search_params.start_date = this.search_params.dates[0]
         this.search_params.end_date = this.search_params.dates[1]
+
+        // format date to ISO 8601
+        this.search_params.start_date = this.search_params.start_date.toISOString().split('T')[0]
+        this.search_params.end_date = this.search_params.end_date.toISOString().split('T')[0]
       } else {
         this.search_params.start_date = null
         this.search_params.end_date = null
       }
       delete this.search_params['dates']
+
+      if (this.search_params.location === "") {
+        this.search_params.location = null
+      }
 
       this.$emit('searchEvent', this.search_params)
     }

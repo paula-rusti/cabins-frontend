@@ -18,7 +18,7 @@
               :location="cabin.location"
               :name="cabin.name"
               :price="cabin.price"
-              src="https://picsum.photos/500/300?image=666"/>
+              :src="cabin.src || 'src/assets/generic_cabin.jpg'"/>
           </div>
         </v-col>
       </v-row>

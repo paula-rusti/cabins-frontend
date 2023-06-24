@@ -40,8 +40,7 @@ export const useCabinsStore = defineStore("cabins", {
         if (item.photos.length !== 0 && item.photos.length !== undefined) {
           item.src = `http://localhost:8000/photos/${item.photos[0].id}`;
         } else {
-          item.src =
-            "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg";
+          item.src = null;
         }
       }
       this.cabins = finalRes.items || [];

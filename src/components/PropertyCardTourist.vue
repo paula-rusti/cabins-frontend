@@ -13,19 +13,16 @@
             >
             </v-img>
           </v-col>
-          <v-col cols="auto">
-            <v-card-title class="align-content-right text-h5" href="https://www.stackoverflow.com">
+          <v-col cols="5">
+            <v-card-title class="align-content-right text-h5">
               {{ name }}
             </v-card-title>
             <v-card-text>Description: {{ description }}</v-card-text>
             <v-card-text>Location: {{ location }}</v-card-text>
-            <v-card-text>Price: {{ price }}</v-card-text>
+            <v-card-text>Price: {{ price }} lei</v-card-text>
           </v-col>
-          <v-col cols="auto">
+          <v-col cols="4">
             <v-card-actions>
-              <v-btn icon>
-                <v-icon>mdi-heart</v-icon>
-              </v-btn>
               <v-btn
                 color="purple lighten-2"
                 :to="{
