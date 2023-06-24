@@ -235,7 +235,7 @@ export default {
     },
 
     setValueHandler(type, value) {
-      console.log("setValue was emitted with" + type + " " + value)
+      console.log("setValue was emitted with " + type + " " + value)
       switch (type) {
         case "price":
           this.propertyData.price = value

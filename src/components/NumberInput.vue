@@ -10,8 +10,7 @@
                   @input="this.v$.inputValue.$touch()"
     ></v-text-field>
     <v-btn class="mx-2" icon="mdi-minus" @click="this.inputValue--"></v-btn>
-    <v-btn icon="mdi-plus"
-           @click="this.inputValue++ && this.$emit('setValue', this.inputType, this.inputValue)"></v-btn>
+    <v-btn icon="mdi-plus" @click="this.inputValue++"></v-btn>
   </div>
 </template>
 
@@ -29,6 +28,13 @@ export default {
       validator(value) {
         return ['capacity', 'nrRooms', 'nrBeds', 'nrBathrooms', 'price'].includes(value)
       }
+    }
+  },
+  watch: {
+    async inputValue() {
+      const isFormCorrect = await this.v$.$validate()
+      if (!isFormCorrect) return
+      this.$emit('setValue', this.inputType, this.inputValue)
     }
   },
   computed: {
