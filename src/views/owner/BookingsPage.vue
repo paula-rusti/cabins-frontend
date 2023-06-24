@@ -33,10 +33,10 @@ export default {
   data() {
     return {
       headers: [
-        { title: 'Cabin Id', key: 'cabin_id' },
+        { title: 'Tourist Name', key: 'tourist_name' },
+        { title: 'Cabin Name', key: 'cabin_name.name' },
         { title: 'Check In', key: 'start_date' },
         { title: 'Check Out', key: 'end_date' },
-        { title: 'User Id', key: 'user_id' },
         { title: 'Guests', key: 'nr_guests' },
         { title: 'Total Price', key: 'price' },
       ],
