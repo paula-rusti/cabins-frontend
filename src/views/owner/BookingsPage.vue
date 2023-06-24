@@ -33,13 +33,12 @@ export default {
   data() {
     return {
       headers: [
-        { title: 'Property Name', key: 'propertyName' },
-        { title: 'Owner Name', key: 'ownerName' },
-        { title: 'Owner Email', key: 'ownerEmail' },
-        { title: 'Check In', key: 'checkIn' },
-        { title: 'Check Out', key: 'checkOut' },
-        { title: 'Nights', key: 'nights' },
-        { title: 'Total Price', key: 'totalPrice' },
+        { title: 'Cabin Id', key: 'cabin_id' },
+        { title: 'Check In', key: 'start_date' },
+        { title: 'Check Out', key: 'end_date' },
+        { title: 'User Id', key: 'user_id' },
+        { title: 'Guests', key: 'nr_guests' },
+        { title: 'Total Price', key: 'price' },
       ],
       page: 1,
       itemsPerPage: 2,
@@ -64,15 +63,15 @@ export default {
     }
   },
   methods: {
-    ...mapActions(useBookingsStore, ['retrieveBookingsOfTourist', 'setPage', 'setItemsPerPage']),
+    ...mapActions(useBookingsStore, ['retrieveBookingsOfOwner', 'setPage', 'setItemsPerPage']),
     getBookings() {
       this.setPage(this.page)
-      this.retrieveBookingsOfTourist(1)  // cabin id not used yet
+      this.retrieveBookingsOfOwner()  // cabin id not used yet
     },
   },
   mounted() {
     this.setItemsPerPage(this.itemsPerPage)
-    this.retrieveBookingsOfTourist(1)
+    this.retrieveBookingsOfOwner()
   }
 }
 </script>
