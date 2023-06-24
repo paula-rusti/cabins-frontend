@@ -1,26 +1,25 @@
 // Management store for managing cabins as an owner
 import {defineStore} from 'pinia'
-import ApiClient from "@/services/ApiClient";
 import {useUserStore} from "@/store/user";
+import CabinsManagementApiClient from "@/services/CabinsManagementApiClient";
 
 
 export const useManagementStore = defineStore('management', {
   state: () => ({
     cabinsData: [],
     cabinsCount: 0,
-    addedCabins: []
   }),
   actions: {
     async addCabin(cabinData) {
       let userStore = useUserStore()
-      console.log("adding cabin", cabinData);
-      let response = await ApiClient.addCabin(cabinData, userStore.access_token);
-      // TODO: handler response
-      console.log("response", response);
+      await CabinsManagementApiClient.addCabin(cabinData, userStore.access_token);
     },
-    // eslint-disable-next-line no-unused-vars
     async retrieveCabins(page = 1, size = 100) {
-
+      let userStore = useUserStore()
+      let response = await CabinsManagementApiClient.getCabins(page, size, userStore.access_token,
+        {user_id: userStore.userDetails.properties.user_id});
+      this.cabinsData = response.items;
+      this.cabinsCount = response.total;
     }
   }
 })

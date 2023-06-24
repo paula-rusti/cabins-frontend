@@ -68,9 +68,14 @@ export default {
   components: {VDataTable},
   watch: {
     page: {
-      handler(newValue, _) {
+      handler(_newValue, _) {
         this.getCabins()
       }
+    }
+  },
+  setup() {
+    return {
+      managementStore: useManagementStore()
     }
   },
   data() {
