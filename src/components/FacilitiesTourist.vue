@@ -10,7 +10,7 @@
       nav
     >
       <v-list-item
-        v-for="(item, i) in this.facilities.slice(0, this.facilitiesToShow)"
+        v-for="(item, i) in this.facilitiesComputed"
         :key="i"
         :value="item"
         active-color="primary"
@@ -19,8 +19,8 @@
           <v-icon :icon="item.icon"></v-icon>
         </template>
 
-        <v-list-item-title v-text="item.text"></v-list-item-title>
-        <v-list-item-subtitle>aaa</v-list-item-subtitle>
+        <v-list-item-title>{{item.text}}</v-list-item-title>
+        <v-list-item-subtitle>{{item.desc}}</v-list-item-subtitle>
       </v-list-item>
     </v-list>
     <v-card-actions>
@@ -33,19 +33,28 @@
 //TODO remove hardcoded data and introduce props to pass data
 export default {
   name: "FacilitiesTourist",
+  props: {
+    facilities: {
+      type: Array,
+      required: true
+    }
+  },
   data() {
     return {
       facilitiesButtonPressed: false,
       facilitiesButtonText: "Show More",
       facilitiesToShow: 3,
-      facilities: [
-        {text: 'Internet', icon: 'mdi-wifi', desc: 'free wifi is available'},
-        {text: 'Parking', icon: 'mdi-parking', desc: 'free parking on site'},
-        {text: 'Parking', icon: 'mdi-parking', desc: 'free parking on site'},
-        {text: 'Parking', icon: 'mdi-parking', desc: 'free parking on site'},
-        {text: 'Parking', icon: 'mdi-parking', desc: 'free parking on site'},
-        {text: 'Parking', icon: 'mdi-parking', desc: 'free parking on site'},
-      ],
+    }
+  },
+  computed: {
+    facilitiesComputed() {
+      if (this.facilities.length > 0) {
+        return this.facilities.slice(0, this.facilitiesToShow)
+      } else {
+        return [
+          {icon: "mdi-sofa", text: "No facilities available", desc: "That's sad"},
+        ]
+      }
     }
   },
   methods: {

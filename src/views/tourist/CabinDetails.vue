@@ -3,17 +3,20 @@
     <v-responsive class="d-flex fill-height">
       <v-row>
         <v-col cols="12">
-          <h1>{{this.currentCabin.name}}</h1>
+          <h1>{{this.cabinStore.currentCabin?.name}}</h1>
         </v-col>
         <v-col cols="12">
           <h4>
             <v-icon icon="mdi-map-marker"></v-icon>
-            {{this.currentCabin.location}}
+            {{this.cabinStore.currentCabin?.location}}
           </h4>
         </v-col>
         <v-col class="v-col-md-6 v-col-sm-12 v-col-xs-12" cols="12">
           <v-icon icon="mdi-star"></v-icon>
           Rating: {{this.rating}}
+        </v-col>
+        <v-col cols="12">
+          <p>Description: {{this.cabinStore.currentCabin.description}}</p>
         </v-col>
         <v-col cols="12">
           <lightgallery
@@ -26,9 +29,6 @@
               <img :src="src" alt="img"/>
             </a>
           </lightgallery>
-        </v-col>
-        <v-col cols="12">
-          <p>Description: {{this.currentCabin.description}}</p>
         </v-col>
 <!--        cabin info section-->
         <v-row>
@@ -47,10 +47,10 @@
                 style="background-color: cornflowerblue"
               >
                 <v-list-item
-                  v-for="(item, i) in [{ title: 'Rooms', icon: 'mdi-sofa', value: 3 },
-                                        { title: 'Bathrooms', icon: 'mdi-shower-head', value: 3 },
-                                        { title: 'Beds', icon: 'mdi-bed', value: 3 },
-                                        { title: 'Fits', icon: 'mdi-account', value: 3 }
+                  v-for="(item, i) in [{ title: 'Rooms', icon: 'mdi-sofa', key: 'nr_rooms' },
+                                        { title: 'Bathrooms', icon: 'mdi-shower-head', key: 'nr_bathrooms' },
+                                        { title: 'Beds', icon: 'mdi-bed', key: 'nr_beds' },
+                                        { title: 'Fits', icon: 'mdi-account', key: 'capacity' }
                                       ]"
                   :key="i"
                   :value="item"
@@ -60,8 +60,8 @@
                     <v-icon :icon="item.icon"></v-icon>
                   </template>
 
-                  <v-list-item-title
-                    v-text="`${item.title}: ${item.value}`">
+                  <v-list-item-title>
+                    {{`${item.title}: ${this.cabinStore.currentCabin[item.key]}`}}
                   </v-list-item-title>
                 </v-list-item>
               </v-list>
@@ -69,26 +69,22 @@
           </v-col>
 <!--        facilities-->
           <v-col class="v-col-md-4 v-col-sm-12 v-col-xs-12" cols="12">
-            <facilities-tourist></facilities-tourist>
+            <facilities-tourist :facilities="this.cabinStore.currentCabin.facilities || []"></facilities-tourist>
           </v-col>
-
+          <!--        book  now-->
+          <v-col class="v-col-md-4 v-col-sm-12 v-col-xs-12" cols="12">
+            <div class="pa-4">
+              <reserve-card :price="this.cabinStore.currentCabin.price"></reserve-card>
+            </div>
+          </v-col>
         </v-row>
       </v-row>
-      <!--        book  now-->
-      <v-row>
-        <v-col class="v-col-md-4 v-col-sm-12 v-col-xs-12" cols="12">
-          <div class="pa-4">
-            <reserve-card :price="this.currentCabin.price"></reserve-card>
-          </div>
-        </v-col>
-      </v-row>
+
 <!--      aici punem harta-->
       <v-row>
-        <v-col cols="4"></v-col>
-        <v-col cols="auto">
-          <div id="map" style="height: 1000px; width: 1000px"></div>
+        <v-col cols="12">
+          <div id="map" style="height: 1000px; width: 100vw"></div>
         </v-col>
-        <v-col cols="4"></v-col>
       </v-row>
 <!--      host information-->
       <v-row>
@@ -103,9 +99,11 @@
       <v-divider class="py-4"></v-divider>
 <!--      reviews: conditionally render only if it has reviews-->
       <v-row justify="center" align-content="center">
+        <v-col cols="12">
         <div class="pa-5">
           <rating-component></rating-component>
         </div>
+        </v-col>
       </v-row>
 
     </v-responsive>
@@ -114,7 +112,6 @@
 
 <script>
 import {useCabinsStore} from "@/store/cabins";
-import {mapState} from "pinia";
 // todo add leaflet map without geocoder
 // lightgallery
 import lgThumbnail from "lightgallery/plugins/thumbnail";
@@ -124,10 +121,7 @@ import FacilitiesTourist from "@/components/FacilitiesTourist";
 import HostInformationCard from "@/components/HostInformationCard";
 import HostContactInfo from "@/components/HostContactInfo";
 import ReserveCard from "@/components/ReserveCard";
-import {mapActions} from "pinia/dist/pinia";
 import RatingComponent from "@/components/RatingComponent";
-
-const popup = L.popup();
 
 export default {
   name: "CabinDetails",
@@ -161,46 +155,36 @@ export default {
       // map data
       marker: null,
       map: null,
-      // location name, latitude, longitude are store in the cabin object but we'll store them here also
-      location_name: null,
-      latitude: null,
-      longitude: null,
     }
   },
-  computed: {
-    ...mapState(useCabinsStore, ['cabins', 'currentCabin'])
+  setup() {
+    let cabinStore = useCabinsStore()
+    return {cabinStore}
   },
   methods: {
-    ...mapActions(useCabinsStore, ['getCabinById']),
     onInit: () => {
       console.log('lightGallery has been initialized');
     },
     onBeforeSlide: () => {
       console.log('calling before slide');
+    },
+    updateMap() {
+      console.log("Mounted cabin details, latitude is ", this.cabinStore.currentCabin.latitude, " longitude is ", this.cabinStore.currentCabin.longitude)
+      let map = this.map = L.map('map').setView([this.cabinStore.currentCabin.latitude, this.cabinStore.currentCabin.longitude], 18)
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      }).addTo(map);
+      // place marker at location of cabin
+      this.marker = L.marker([this.cabinStore.currentCabin.latitude, this.cabinStore.currentCabin.longitude]).addTo(map);
     }
   },
-  created() {
+  async created() {
     console.log("Created cabin details")
     this.cabin_id = this.$route.params.cabin_id // extract params from route
-    this.getCabinById(this.cabin_id)  // fetches currentCabin in store
-    console.log("Cabin id is ", this.cabin_id)
-    // place this in data also
-    this.location_name = this.currentCabin.location_name
-    this.latitude = this.currentCabin.latitude
-    this.longitude = this.currentCabin.longitude
-    console.log("In created latitude is ", this.latitude, " longitude is ", this.longitude)
+    await this.cabinStore.getCabinById(this.cabin_id)  // fetches currentCabin in store
+    await this.updateMap()
   },
-
-  mounted() {
-    console.log("Monted cabin details, latitude is ", this.latitude, " longitude is ", this.longitude)
-    let map = this.map = L.map('map').setView([this.latitude, this.longitude], 18)
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }).addTo(map);
-    // place marker at location of cabin
-    this.marker = L.marker([this.latitude, this.longitude]).addTo(map);
-  }
 }
 </script>
 

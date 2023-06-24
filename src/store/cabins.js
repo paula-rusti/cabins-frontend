@@ -50,7 +50,8 @@ export const useCabinsStore = defineStore("cabins", {
 
     async getCabinById(id) {
       this.currentCabin = await ApiClient.fetchCabinById(id);
-      return this.currentCabin
+      this.currentCabin.photos = await ApiClient.fetchPhotosOfCabin(id);
+      console.log("done fetching ", this.currentCabin)
     },
 
     async getPhotosOfCabin(id) {

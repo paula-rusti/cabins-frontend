@@ -224,13 +224,13 @@ export default {
       this.v$.$validate()
       if (!this.v$.$error) {
         // if ANY fail validation
-        alert('Form successfully submitted.')
+        this.$swal('Cabbin added!', 'Congrats!', 'success');
         console.log("Now call methods to send request to the backed")
         let addCabinResponse = this.requestAddCabin()
         console.log("add cabin response: ")
         console.log(addCabinResponse)
       } else {
-        alert('Form failed validation')
+        this.$swal('Failed to add cabin');
       }
     },
 
