@@ -33,13 +33,12 @@ export default {
   data() {
     return {
       headers: [
-        { title: 'Property Name', key: 'propertyName' },
-        { title: 'Owner Name', key: 'ownerName' },
-        { title: 'Owner Email', key: 'ownerEmail' },
-        { title: 'Check In', key: 'checkIn' },
-        { title: 'Check Out', key: 'checkOut' },
-        { title: 'Nights', key: 'nights' },
-        { title: 'Total Price', key: 'totalPrice' },
+        { title: 'Tourist Name', key: 'tourist_name' },
+        { title: 'Cabin Name', key: 'cabin_name.name' },
+        { title: 'Check In', key: 'start_date' },
+        { title: 'Check Out', key: 'end_date' },
+        { title: 'Guests', key: 'nr_guests' },
+        { title: 'Total Price', key: 'price' },
       ],
       page: 1,
       itemsPerPage: 2,
