@@ -68,12 +68,6 @@
         </v-col>
       </v-row>
 
-      <v-row>
-        <v-col cols="12">
-          <h1>Aici vine harta</h1>
-        </v-col>
-      </v-row>
-
       <v-row class="ma-2">
         <v-col cols="4"></v-col>
         <v-col cols="auto">
@@ -82,11 +76,6 @@
         <v-col cols="4"></v-col>
       </v-row>
 
-      <v-row>
-        <v-col cols="12">
-          <h1>Dupa harta</h1>
-        </v-col>
-      </v-row>
 
     </v-responsive>
   </v-container>
@@ -220,15 +209,14 @@ export default {
       return apiResponse
     },
 
-    submitForm() {
+    async submitForm() {
       this.v$.$validate()
       if (!this.v$.$error) {
         // if ANY fail validation
         this.$swal('Cabbin added!', 'Congrats!', 'success');
         console.log("Now call methods to send request to the backed")
-        let addCabinResponse = this.requestAddCabin()
-        console.log("add cabin response: ")
-        console.log(addCabinResponse)
+        await this.requestAddCabin()
+        await this.$router.push({name: "Owner Home Page"})
       } else {
         this.$swal('Failed to add cabin');
       }

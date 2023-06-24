@@ -18,7 +18,7 @@
               :location="cabin.location"
               :name="cabin.name"
               :price="cabin.price"
-              :src="cabin.src || 'src/assets/generic_cabin.jpg'"/>
+              :src="cabin.src || generic_cabin"/>
           </div>
         </v-col>
       </v-row>
@@ -42,11 +42,14 @@ import {mapActions} from "pinia/dist/pinia";
 import {useCabinsStore} from "@/store/cabins";
 import {mapState} from "pinia";
 
+import generic_cabin from "@/assets/generic_cabin.jpg"
+
 export default {
   name: "TouristHomePage",
   components: {PropertyCardTourist, SearchCardTourist},
   data() {
     return {
+      generic_cabin: generic_cabin,
       page: 1,
       itemsPerPage: 3,
     }
