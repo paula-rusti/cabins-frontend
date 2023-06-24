@@ -2,8 +2,27 @@ const url = "http://localhost:8000";
 
 
 class BookingApiClient {
+
+  async createNewBooking(access_token, bookingData) {
+    const route = "/bookings/add/";
+    const fetchUrl = url + route;
+    try {
+      const response = await fetch(fetchUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${access_token}`,
+        },
+        body: JSON.stringify(bookingData),
+      });
+      return await this.unwrapResponseData(response);
+    } catch (e) {
+      return Promise.reject(e);
+    }
+  }
+
   async fetchBookingsOfTourist(access_token) {
-    const route = "/bookings/tourist";
+    const route = "/bookings/tourist/";
     const fetchUrl = url + route;
     const response = await fetch(fetchUrl, {
       method: "GET",

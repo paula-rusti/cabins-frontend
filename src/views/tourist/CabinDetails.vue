@@ -74,7 +74,7 @@
           <!--        book  now-->
           <v-col class="v-col-md-4 v-col-sm-12 v-col-xs-12" cols="12">
             <div class="pa-4">
-              <reserve-card :price="this.cabinStore.currentCabin.price"></reserve-card>
+              <reserve-card :cabin="this.cabinStore.currentCabin"></reserve-card>
             </div>
           </v-col>
         </v-row>
