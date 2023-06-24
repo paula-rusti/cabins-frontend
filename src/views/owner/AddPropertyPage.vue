@@ -63,7 +63,7 @@
         </v-col>
         <v-col cols="12">
           <div class="text-center pb-5">
-            <v-btn size="large" @click="this.submitForm()">Submit</v-btn>
+            <v-btn size="large" @click="this.submitForm()">Add New Cabin</v-btn>
           </div>
         </v-col>
       </v-row>
@@ -97,7 +97,6 @@ import NumberInput from "@/components/NumberInput";
 import AddFacility from "@/components/AddFacility";
 import {maxLength, minLength, required} from "@vuelidate/validators";
 import {useVuelidate} from "@vuelidate/core";
-import {mapActions, mapState} from "pinia";
 import {useManagementStore} from "@/store/management";
 
 const popup = L.popup();
@@ -105,6 +104,14 @@ const popup = L.popup();
 export default {
   name: "AddPropertyPage",
   components: {AddFacility, NumberInput},
+  setup(){
+    let managementStore = useManagementStore()
+    console.log("setup")
+    console.log(managementStore)
+    return {
+      managementStore
+    }
+  },
   computed: {
     nameErrors() {
       const errors = []
@@ -136,7 +143,6 @@ export default {
       !this.v$.propertyData.location.maxLength.$response && errors.push("Property location must be at most 100 chars")
       return errors
     },
-    ...mapState(useManagementStore, ['cabinsData', "cabinsCount"]),
   },
   data() {
     return {
@@ -189,25 +195,24 @@ export default {
       }
     }
   },
-
   methods: {
-    ...mapActions(useManagementStore, ["addCabin"]),
     async requestAddCabin() {
       let cabinData = {
-        user_id: null, // id of the logged in user, hardcoded as 1
         name: this.propertyData.name,
         description: this.propertyData.description,
         location: this.propertyData.location,
         price: this.propertyData.price,
-        facilities: [], // use this for now, later send from the child component the facilities added (and validated)
+        facilities: [],
         capacity: this.propertyData.capacity,
         nr_rooms: this.propertyData.rooms,
         nr_bathrooms: this.propertyData.bathrooms,
         nr_beds: this.propertyData.beds,
+        latitude: this.propertyData.latitude,
+        longitude: this.propertyData.longitude,
       }
       let apiResponse = null
       try {
-        apiResponse = await this.addCabin(cabinData)  // method from management store
+        apiResponse = await this.managementStore.addCabin(cabinData)  // method from management store
       } catch (e) {
         console.log("Error during adding cabin:")
         console.log(e)

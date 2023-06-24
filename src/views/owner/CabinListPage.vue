@@ -14,6 +14,7 @@
             class="mx-6"
             color="primary"
             prepend-icon="mdi-store-plus"
+            @click="$router.push({name: 'Owner Add Property Page'})"
           >
             Add New Cabin
           </v-btn>

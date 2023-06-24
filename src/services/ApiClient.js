@@ -46,7 +46,7 @@ class ApiClient {
     }
   }
 
-  async addCabin(propertyData, userId) {
+  async addCabin(propertyData, accessToken) {
     // issue a post request, body represent the cabin data except for user_id which is sent in a header
     const route = "/cabins/";
     const fetchUrl = url + route;
@@ -55,7 +55,7 @@ class ApiClient {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "user-id": userId,
+          Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify(propertyData), // body data type must match "Content-Type" header
       });
