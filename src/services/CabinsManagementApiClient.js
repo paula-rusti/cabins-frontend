@@ -35,6 +35,20 @@ class CabinsManagementApiClient {
       return Promise.reject(e);
     }
   }
+
+  async uploadPhoto(formData, cabinId, principal) {
+    let route = "/photos";
+    let fetchUrl = url + route + "?" + this.buildQueryString({cabin_id: cabinId, principal});
+    try {
+      const fetchResponse = await fetch(fetchUrl, {
+        method: "POST",
+        body: formData,
+      });
+      return await this.unwrapResponseData(fetchResponse);
+    } catch (e) {
+      return Promise.reject(e);
+    }
+  }
   buildQueryString(params) {
     /*
      * params = {key1: str, key2: arr[str], ..}

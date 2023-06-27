@@ -147,10 +147,6 @@ export default {
           rotate: false
         }
       },
-      images: [
-        "https://cdn.vuetifyjs.com/images/parallax/material.jpg",
-        "https://picsum.photos/350/165?random"
-      ],
 
       // map data
       marker: null,
@@ -160,6 +156,11 @@ export default {
   setup() {
     let cabinStore = useCabinsStore()
     return {cabinStore}
+  },
+  computed:{
+    images() {
+      return this.cabinStore.currentCabin.photos || []
+    }
   },
   methods: {
     onInit: () => {

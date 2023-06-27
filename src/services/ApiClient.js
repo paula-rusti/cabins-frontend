@@ -25,11 +25,17 @@ class ApiClient {
   }
 
   async fetchPhotosOfCabin(id) {
-    const route = `/photos/cabin/${id}`;
+    const route = `/photos?cabin_id=${id}`;
     let fetchUrl = url + route;
     try {
       const fetchResponse = await fetch(fetchUrl);
-      return await this.unwrapResponseData(fetchResponse);
+      let response = await fetchResponse.json();
+      let photosUrls = []
+      for (let photo of response) {
+        photosUrls.push(`${url}/photos/${photo.id}`)
+      }
+
+      return photosUrls;
     } catch (e) {
       return Promise.reject(e);
     }

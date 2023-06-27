@@ -18,7 +18,7 @@
               :location="cabin.location"
               :name="cabin.name"
               :price="cabin.price"
-              :src="cabin.src || generic_cabin"/>
+              :src="cabin.photos[0] || generic_cabin"/>
           </div>
         </v-col>
       </v-row>

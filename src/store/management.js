@@ -20,6 +20,9 @@ export const useManagementStore = defineStore('management', {
         {user_id: userStore.userDetails.properties.user_id});
       this.cabinsData = response.items;
       this.cabinsCount = response.total;
+    },
+    async uploadPhoto(formData, {cabinId, principal}) {
+      await CabinsManagementApiClient.uploadPhoto(formData, cabinId, principal);
     }
   }
 })
