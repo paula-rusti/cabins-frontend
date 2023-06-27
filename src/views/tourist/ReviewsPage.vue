@@ -6,12 +6,12 @@
       <v-row>
         <v-col cols="3"></v-col>
         <v-col cols="6">
-          <div v-for="review in this.reviews" :key="review.id" class="pa-4">
-            <review-card owner-name="Evan Yout"
-                         property-name="Mountain View Chalet"
-                         grade="4"
-                         date="12.12.2022"
-                         content="Lorem ipsum............................."
+          <div v-for="review in this.reviewStore.reviews" :key="review.id" class="pa-4">
+            <review-card :owner-name="review.user_id"
+                         :property-name="review.cabin_id"
+                         :grade="review.grade"
+                         :date="review.created"
+                         :content="review.description"
             ></review-card>
           </div>
         </v-col>
@@ -31,17 +31,11 @@
 
 <script>
 import ReviewCard from "@/components/ReviewCard";
-import {mapActions, mapState} from "pinia";
 import {useReviewsStore} from "@/store/reviews";
+import {useUserStore} from "@/store/user";
 export default {
   name: "ReviewsPage",
   components: {ReviewCard},
-  data() {
-    return {
-      page: 1,
-      itemsPerPage: 3,
-    }
-  },
   watch: {
     page: {
       // eslint-disable-next-line no-unused-vars
@@ -50,26 +44,32 @@ export default {
       }
     }
   },
+  setup() {
+    return {
+      reviewStore: useReviewsStore(),
+      userStore: useUserStore()
+    }
+  },
   computed: {
-    ...mapState(useReviewsStore, ["reviewCount", "reviews"]),
     pagesCount() {
-      let retVal =  Math.ceil(this.reviewCount / this.itemsPerPage);
-      if (Number.isNaN(retVal)) {
+      try {
+        let retVal =  Math.ceil(this.reviewStore.reviews.length / this.reviewStore.itemsPerPage);
+        if (Number.isNaN(retVal)) {
+          return 0
+        }
+        return retVal
+      } catch (e) {
         return 0
       }
-      return retVal
     }
   },
   methods: {
-    ...mapActions(useReviewsStore, ['retrieveReviewsOfCabin', 'setPage', 'setItemsPerPage']),
     getReviews() {
-      this.setPage(this.page)
-      this.retrieveReviewsOfCabin(1)  // cabin id not used yet
+      this.reviewStore.getReviews({user_id: this.userStore.userDetails.properties.user_id})
     },
   },
   mounted() {
-    this.setItemsPerPage(this.itemsPerPage)
-    this.retrieveReviewsOfCabin(1)
+    this.getReviews()
   }
 }
 </script>
